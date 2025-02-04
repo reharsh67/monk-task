@@ -11,30 +11,62 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for managing coupons.
+ */
 @Service
 public class CouponService {
 
     @Autowired
     private CouponRepository couponRepository;
 
+    /**
+     * Creates a new coupon.
+     *
+     * @param coupon the coupon to create
+     * @return the created coupon
+     */
     public Coupon createCoupon(Coupon coupon) {
         return couponRepository.save(coupon);
     }
 
+    /**
+     * Retrieves all coupons.
+     *
+     * @return a list of all coupons
+     */
     public List<Coupon> getAllCoupons() {
         return couponRepository.findAll();
     }
 
+    /**
+     * Retrieves a coupon by its ID.
+     *
+     * @param id the ID of the coupon
+     * @return an Optional containing the coupon if found, or empty if not found
+     */
     public Optional<Coupon> getCouponById(Long id) {
         return couponRepository.findById(id);
     }
 
+    /**
+     * Deletes a coupon by its ID.
+     *
+     * @param id the ID of the coupon to delete
+     */
     public void deleteCoupon(long id) {
         if (null != getCouponById(id).get()) {
             couponRepository.deleteById(id);
         }
     }
 
+    /**
+     * Updates an existing coupon.
+     *
+     * @param id the ID of the coupon to update
+     * @param couponDetails the new details of the coupon
+     * @return the updated coupon
+     */
     public Coupon updateCoupon(Long id, Coupon couponDetails) {
         Coupon coupon = couponRepository.findById(id).orElseThrow(() -> new RuntimeException("Coupon not found"));
         coupon.setCode(couponDetails.getCode());
@@ -48,7 +80,10 @@ public class CouponService {
     }
 
     /**
-     * Get all applicable coupons for the given cart.
+     * Retrieves all applicable coupons for the given cart.
+     *
+     * @param cart the cart to check for applicable coupons
+     * @return a list of applicable coupons
      */
     public List<Coupon> getApplicableCoupons(Cart cart) {
         List<Coupon> allCoupons = couponRepository.findAll();
@@ -70,17 +105,17 @@ public class CouponService {
                             }
                         }
                         break;
-                case "bxgy":
-                    int totalBuyItems = 0;
-                    for (CartItem item : cart.getItems()) {
-                        if (coupon.getApplicableProducts().contains(item.getProductId().toString())) {
-                            totalBuyItems += item.getQuantity();
+                    case "bxgy":
+                        int totalBuyItems = 0;
+                        for (CartItem item : cart.getItems()) {
+                            if (coupon.getApplicableProducts().contains(item.getProductId().toString())) {
+                                totalBuyItems += item.getQuantity();
+                            }
                         }
-                    }
-                    if (totalBuyItems >= coupon.getBuyQuantity()) {
-                        applicableCoupons.add(coupon);
-                    }
-                    break;
+                        if (totalBuyItems >= coupon.getBuyQuantity()) {
+                            applicableCoupons.add(coupon);
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -90,7 +125,11 @@ public class CouponService {
     }
 
     /**
-     * Apply a specific coupon to the cart and return the updated cart.
+     * Applies a specific coupon to the cart and returns the updated cart.
+     *
+     * @param code the code of the coupon to apply
+     * @param cart the cart to apply the coupon to
+     * @return the updated cart
      */
     public Cart applyCoupon(String code, Cart cart) {
         Coupon coupon = couponRepository.findByCode(code);
@@ -117,7 +156,10 @@ public class CouponService {
     }
 
     /**
-     * Apply a cart-wide discount.
+     * Applies a cart-wide discount.
+     *
+     * @param coupon the coupon to apply
+     * @param cart the cart to apply the discount to
      */
     private void applyCartDiscount(Coupon coupon, Cart cart) {
         if (cart.getTotal() >= coupon.getThreshold()) {
@@ -131,7 +173,10 @@ public class CouponService {
     }
 
     /**
-     * Apply a product-specific discount.
+     * Applies a product-specific discount.
+     *
+     * @param coupon the coupon to apply
+     * @param cart the cart to apply the discount to
      */
     private void applyProductDiscount(Coupon coupon, Cart cart) {
         String applicableProductsIds = coupon.getApplicableProducts();
@@ -148,11 +193,13 @@ public class CouponService {
         cart.setDiscount(totalDiscount);
         cart.setOldTotal(cart.getTotal());
         cart.setTotal(cart.getTotal() - totalDiscount);
-
     }
 
     /**
-     * Apply a Buy X, Get Y Free (BxGy) discount.
+     * Applies a Buy X, Get Y Free (BxGy) discount.
+     *
+     * @param coupon the coupon to apply
+     * @param cart the cart to apply the discount to
      */
     private void applyBxGyDiscount(Coupon coupon, Cart cart) {
         String buyProductIds = coupon.getApplicableProducts();
@@ -199,6 +246,4 @@ public class CouponService {
             cart.setTotal(cart.getTotal() - totalDiscount);
         }
     }
-
-
 }

@@ -22,6 +22,9 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for the CouponService class.
+ */
 @ExtendWith(MockitoExtension.class)
 class CouponServiceTest {
 
@@ -35,6 +38,9 @@ class CouponServiceTest {
     private Cart cart;
     private CartItem cartItem;
 
+    /**
+     * Sets up the test data before each test.
+     */
     @BeforeEach
     void setUp() {
         coupon = new Coupon();
@@ -46,7 +52,7 @@ class CouponServiceTest {
         coupon.setActive(true);
 
         cartItem = new CartItem();
-        cartItem.setId(1L); // Set the id field
+        cartItem.setId(1L);
         cartItem.setProductId(1L);
         cartItem.setPrice(50.0);
         cartItem.setQuantity(2);
@@ -56,6 +62,9 @@ class CouponServiceTest {
         cart.setTotal(100.0);
     }
 
+    /**
+     * Tests the createCoupon method.
+     */
     @Test
     void testCreateCoupon() {
         when(couponRepository.save(any(Coupon.class))).thenReturn(coupon);
@@ -67,6 +76,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).save(coupon);
     }
 
+    /**
+     * Tests the getAllCoupons method.
+     */
     @Test
     void testGetAllCoupons() {
         when(couponRepository.findAll()).thenReturn(Collections.singletonList(coupon));
@@ -78,6 +90,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).findAll();
     }
 
+    /**
+     * Tests the getCouponById method.
+     */
     @Test
     void testGetCouponById() {
         when(couponRepository.findById(anyLong())).thenReturn(Optional.of(coupon));
@@ -89,6 +104,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).findById(1L);
     }
 
+    /**
+     * Tests the deleteCoupon method.
+     */
     @Test
     void testDeleteCoupon() {
         when(couponRepository.findById(anyLong())).thenReturn(Optional.of(coupon));
@@ -99,6 +117,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).deleteById(1L);
     }
 
+    /**
+     * Tests the updateCoupon method.
+     */
     @Test
     void testUpdateCoupon() {
         when(couponRepository.findById(anyLong())).thenReturn(Optional.of(coupon));
@@ -111,6 +132,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).save(coupon);
     }
 
+    /**
+     * Tests the getApplicableCoupons method for cart-based coupons.
+     */
     @Test
     void testGetApplicableCoupons_CartBased() {
         coupon.setType("cart");
@@ -123,6 +147,9 @@ class CouponServiceTest {
         assertEquals("cart", applicableCoupons.get(0).getType());
     }
 
+    /**
+     * Tests the getApplicableCoupons method for product-based coupons.
+     */
     @Test
     void testGetApplicableCoupons_ProductBased() {
         coupon.setType("product");
@@ -136,6 +163,9 @@ class CouponServiceTest {
         assertEquals("product", applicableCoupons.get(0).getType());
     }
 
+    /**
+     * Tests the getApplicableCoupons method for buy-x-get-y-based coupons.
+     */
     @Test
     void testGetApplicableCoupons_BxGyBased() {
         coupon.setType("bxgy");
@@ -152,6 +182,9 @@ class CouponServiceTest {
         assertEquals("bxgy", applicableCoupons.get(0).getType());
     }
 
+    /**
+     * Tests the applyCoupon method for cart-based coupons.
+     */
     @Test
     void testApplyCoupon_CartBased() {
         coupon.setType("cart");
@@ -164,6 +197,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).findByCode("TESTCODE");
     }
 
+    /**
+     * Tests the applyCoupon method for product-based coupons.
+     */
     @Test
     void testApplyCoupon_ProductBased() {
         coupon.setType("product");
@@ -177,6 +213,9 @@ class CouponServiceTest {
         verify(couponRepository, times(1)).findByCode("TESTCODE");
     }
 
+    /**
+     * Tests the applyCoupon method for buy-x-get-y-based coupons.
+     */
     @Test
     void testApplyCoupon_BxGyBased() {
         coupon.setType("bxgy");
