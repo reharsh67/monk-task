@@ -1,0 +1,250 @@
+{
+	"info": {
+		"_postman_id": "0c390770-ad59-4c01-858b-5d2312f27bb4",
+		"name": "Coupon API Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25118476"
+	},
+	"item": [
+		{
+			"name": "Create Coupon",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"code\": \"SAVE50\",\n  \"type\": \"cart\",\n  \"discountPercentage\": 50.0,\n  \"threshold\": 300.0,\n  \"active\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/coupons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Coupons",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coupons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Coupon by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coupons/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Coupon by ID",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"code\": \"SAVE30\",\n  \"type\": \"cart\",\n  \"discountPercentage\": 30.0,\n  \"threshold\": 200.0,\n  \"active\": true\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/coupons/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Coupon by ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/coupons/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Applicable Coupons",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cartTotal\": 250.0,\n  \"items\": [\n    { \"productId\": 1, \"price\": 100.0, \"quantity\": 2 },\n    { \"productId\": 2, \"price\": 50.0, \"quantity\": 3 }\n  ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/coupons/applicable-coupons",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"applicable-coupons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Coupon cart",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cartTotal\": 400.0,\n  \"couponId\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/coupons/apply-coupon/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"apply-coupon",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Coupon product",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"cartTotal\": 400.0,\n  \"couponId\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/coupons/apply-coupon/{id}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"apply-coupon",
+						"{id}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply Coupon bxgy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 1,\n  \"items\": [\n    {\n      \"id\": 1,\n      \"productName\": \"Product A\",\n      \"price\": 100.0,\n      \"quantity\": 2\n    },\n    {\n      \"id\": 2,\n      \"productName\": \"Product B\",\n      \"price\": 50.0,\n      \"quantity\": 1\n    },    {\n      \"id\": 5,\n      \"productName\": \"Product B\",\n      \"price\": 50.0,\n      \"quantity\": 1\n    }\n  ],\n  \"total\": 250.0,\n  \"discount\": 0,\n  \"oldTotal\": 0\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/coupons/apply-coupon?code=BUY1GET1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"coupons",
+						"apply-coupon"
+					],
+					"query": [
+						{
+							"key": "code",
+							"value": "BUY1GET1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
